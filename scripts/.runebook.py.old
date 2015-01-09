@@ -1,0 +1,169 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+import sys
+import string
+
+import dparse
+import dstats
+import dmanip
+import gemprim
+import simple_crypto
+
+raw = dparse.readFile("runes.rune")
+
+rawPages = raw.split("\n\n")
+
+# Set up pages:
+pages = []
+for page in rawPages:
+        curPage = []
+        for word in page.split("•"):
+                primeWord = []
+                for letter in dmanip.sepStr(word, 3):
+                        primeWord.append(gemprim.runeToPrime([letter])[0])
+                curPage.append(primeWord)
+        pages.append(curPage)
+
+for page in pages:
+        runes = []
+        for word in page:
+                runes.extend([gemprim.primeToAsc([c])[0] for c in word])
+        dstats.graphFreq(runes)
+        raw_input("...")
+
+sys.exit()
+
+# List of words
+words = []
+for page in pages:
+        words.extend(page)
+
+# All runes in one list
+allChrs = []
+for word in words:
+        allChrs.extend(word)
+
+# Runes as strings
+strWords = []
+for word in words:
+        strWords.append(gemprim.ascToStr(gemprim.primeToAsc(word)))
+
+wordLengths = [len(word) for word in words]
+
+dstats.graphFreq(allChrs)
+
+txt = ""
+for page in pages:
+        for word in page:
+                for letter in word:
+                        letter = gemprim.primeToAsc([letter])[0]
+                        for c in letter:
+                                if c == "/":
+                                        continue
+                                if 'A' <= c <= 'Z':
+                                        txt += c
+                txt += " "
+        txt += "\n\n"
+
+dstats.graphFreq(allChrs)
+
+trans = {
+"E":"e"
+
+}
+
+#txt = simple_crypto.replaceWithDict(txt, trans)
+#print txt
+
+# Frequency analysis
+# freq = dstats.getFreq(strWords)
+# 
+# print "Words with more than 2 freq:"
+# for key in freq:
+#         if freq[key] > 2 and len(key.split("-")) > 2:
+#                 print key + " - " + str(freq[key])
+
+### Results:
+### EA-R-EO appears in 3 places, could be used to crack vigenere cipher
+
+# print "Location of EA-R-EO's:"
+# loc = 0; passed = 0
+# wordsCop = allChrs
+# while loc != -1:
+#         loc = dstats.searchForBytes(wordsCop, [109, 11, 41])
+#         if loc != -1:
+#                 print "Found at " + str(loc + passed)
+#         passed += loc+3
+#         wordsCop = wordsCop[loc+3:]
+
+### Results:
+### EA-R-EO's at 1877, 6284, and 7379
+### No common factors.
+
+# for searchLen in range(4,5):
+#         seqs = [gemprim.ascToStr(gemprim.primeToAsc(i)) for i in dmanip.sepList(allChrs, searchLen)]
+#         freq = dstats.getFreq(seqs)
+#         
+#         print "For length " + str(searchLen)
+#         count = 0
+#         for key in freq:
+#                 if freq[key] > 1:
+#                         #print ">>> " + key + " - " + str(freq[key])
+#                         count += 1
+#         print "Count " + str(count)
+
+### Results:
+### Nothing interesting.
+### High amounts of repeated sequences of 2 and 3, but very little for 4 and above.
+### Doubt they'd use a key with 2/3 digits anyway
+
+# print "Words shorter than 2:"
+# for word in words:
+#         if len(word) < 2:
+#                 print gemprim.primeToAsc(word)
+
+# print "Check for double letters"
+# for i in range(29):
+#         checkForDouble = gemprim.runeDict[i][0]
+#         print "Rune " + str(checkForDouble)
+#         for iw in range(len(words)):
+#                 word = words[iw]
+#                 for il in range(len(word)-1):
+#                         if word[il] == checkForDouble and word[il+1] == checkForDouble:
+#                                 print "Word: " + str(iw) + " - Letter: " + str(il) + "/" + str(len(word))
+
+### Result:
+### Double letters rare
+### Basically nothing.
+
+
+
+
+
+
+
+
+
+# Possible keys:
+# 256B x3
+# 256B sexagesimal
+# Runes outguess
+# 17,13,55,1
+# Xor combinations of all of above
+# Sequences of primes
+
+# Possible applications:
+# Xor
+# +, -, *
+# 3301-n (and variations)
+
+# Numbers from runes:
+# Primes
+# Index
+# From IRC: Sets of aetts??
+# Combinations
+
+# Applied to:
+# Pages
+# Whole book

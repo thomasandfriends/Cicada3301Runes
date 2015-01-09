@@ -1,0 +1,1 @@
+Data suffixes must relate to what data it is - for example. hexidecimal data should be called .hex, binary .bin, ASCII characters .asc, etc.

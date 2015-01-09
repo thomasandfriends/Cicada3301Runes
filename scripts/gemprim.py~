@@ -1,0 +1,76 @@
+#!/usr/bin/python
+
+runeDict = [
+        [2, "F", "ᚠ"],
+        [3, "U", "ᚢ"],
+        [5, "TH", "ᚦ"],
+        [7, "O", "ᚩ"],
+        [11, "R", "ᚱ"],
+        [13, "C/K", "ᚳ"],
+        [17, "G", "ᚷ"],
+        [19, "W", "ᚹ"],
+        [23, "H", "ᚻ"],
+        [29, "N", "ᚾ"],
+        [31, "I", "ᛁ"],
+        [37, "J", "ᛂ"],
+        [41, "EO", "ᛇ"],
+        [43, "P", "ᛈ"],
+        [47, "X", "ᛉ"],
+        [53, "S/Z", "ᛋ"],
+        [59, "T", "ᛏ"],
+        [61, "B", "ᛒ"],
+        [67, "E", "ᛖ"],
+        [71, "M", "ᛗ"],
+        [73, "L", "ᛚ"],
+        [79, "NG/ING", "ᛝ"],
+        [83, "OE", "ᛟ"],
+        [89, "D", "ᛞ"],
+        [97, "A", "ᚪ"],
+        [101, "AE", "ᚫ"],
+        [103, "Y", "ᚣ"], #
+        [107, "IA/IO", "ᛡ"], #
+        [109, "EA", "ᛠ"]
+]
+
+def primeToAsc(p):
+        ret = []
+        
+        for i in p:
+                asc = "*"
+                for j in runeDict:
+                        if j[0] == i:
+                                asc = j[1]
+                                break
+                ret.append(asc)
+
+                if asc == "*":
+                        print "No asc value found"
+
+        return ret
+
+def primeToRune(p):
+        print "Prime to rune not done"
+        
+        
+
+def ascToPrime(a):
+        ret = []
+
+        for i in a:
+                prime = -1
+                for j in runeDict:
+                        if j[1] == i:
+                                asc = j[0]
+                                break
+                                
+                if prime == -1:
+                        print "No prime value found"
+        return ret
+        
+def ascToStr(a):
+        ret = ""
+        
+        for i in a:
+                ret += i + "-"
+
+        return ret[:-1]
